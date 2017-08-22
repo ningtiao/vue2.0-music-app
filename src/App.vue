@@ -1,5 +1,5 @@
 <template>
-  <div id="app"  @touchmove.prevent>
+  <div id="app">
     <m-header></m-header>
     <tab></tab>
     <router-view></router-view>
@@ -17,6 +17,7 @@
   }
 </script>
 
-<style scoped lang="stylus" rel="stylesheet/stylus">
+<style  lang="stylus" rel="stylesheet/stylus">
+@import "~common/stylus/mixin"
 
 </style>
