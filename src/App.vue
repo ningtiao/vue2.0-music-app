@@ -1,6 +1,5 @@
 <template>
   <div id="app"  @touchmove.prevent>
-    Hollo vue
     <m-header></m-header>
     <tab></tab>
     <router-view></router-view>
