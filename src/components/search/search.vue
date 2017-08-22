@@ -1,5 +1,5 @@
 <template>
-<div class="">4444</div>
+<div class="">搜索</div>
 </template>
 
 <script type="text/ecmascript-6">

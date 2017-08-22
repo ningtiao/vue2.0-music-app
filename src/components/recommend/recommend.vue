@@ -1,5 +1,5 @@
 <template>
-<div class="">4444</div>
+<div class="">热门歌单推荐</div>
 </template>
 
 <script type="text/ecmascript-6">
