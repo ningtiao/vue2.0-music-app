@@ -40,7 +40,7 @@
         this._initDots()
         this._initSlider()
         if (this.autoPlay) {
-          this._play()
+          this._play() // 图片轮播
         }
       }, 20)
       window.addEventListener('resize', () => {
