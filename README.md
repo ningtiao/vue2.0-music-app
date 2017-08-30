@@ -4,8 +4,19 @@
 
 ## Build Setup
 
-``` bash
-# install dependencies
+## 说明   目前这个项目还在开发中，目前完成首页轮播图模块，后面有时间还会继续完善新功能！！
+>  如果对您对此项目有兴趣，可以点 "Star" 支持一下 谢谢！ ^_^
+
+## 项目截图
+
+## 首页
+
+![image](https://github.com/yjx-passion/vue2.0-music-app/blob/master/src/components/img/music1.png)
+
+![image](https://github.com/yjx-passion/vue2.0-music-app/blob/master/src/components/img/music.png)
+
+## 项目运行
+
 npm install
 
 # serve with hot reload at localhost:8080
