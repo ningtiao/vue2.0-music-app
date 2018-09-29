@@ -45,6 +45,13 @@
       refresh() { // 刷新重新计算高度
         this.scroll && this.scroll.refresh()
       }
+    },
+    watch: { // 监听data变化 刷新
+      data() {
+        setTimeout(() => {
+          this.refresh()
+        }, this.refreshDelay)
+      }
     }
   }
 </script>
