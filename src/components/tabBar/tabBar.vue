@@ -5,7 +5,7 @@
         <img slot="icon-active" src="../../assets/images/shouyexuanzhong.png">
         <span slot="label">首页</span>
       </tabbar-item>
-      <tabbar-item link="myHome">
+      <tabbar-item link="User">
         <img slot="icon" src="../../assets/images/wode.png">
         <img slot="icon-active" src="../../assets/images/wodeuanzhong.png">
         <span slot="label">我的</span>
@@ -33,7 +33,7 @@ export default {
         {
           name: '我的',
           iconCls: '../assets/images/shouye.png',
-          link: 'myHome'
+          link: 'User'
         }
       ]
     }
