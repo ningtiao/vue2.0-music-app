@@ -1,7 +1,7 @@
 <template>
   <div class="m-header">
     <div class="icon"></div>
-    <h1 class="text">音乐app</h1>
+    <h1 class="text">debang</h1>
     <router-link tag="div" class="mine" to="/user">
       <i class="icon-mine"></i>
     </router-link>

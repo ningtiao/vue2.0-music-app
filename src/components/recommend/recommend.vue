@@ -1,49 +1,139 @@
 <template>
-  <div class="recommend">
-    <div class="recommend-content">
-      <div v-if="recommends.length" class="slider-wrapper">
-        <slider>
-          <div v-for="item in recommends">
-            <a :href="item.linkUrl">
-              <img :src="item.picUrl">
-            </a>
+  <div class="recommend" ref="recommend">
+    <scroll ref="scroll" class="recommend-content" :data="MainList">
+      <div>
+        <div v-if="recommends.length" class="slider-wrapper">
+          <slider>
+            <div v-for="item in recommends" :key="item.index">
+              <a :href="item.url">
+                <img :src="item.img">
+              </a>
+            </div>
+          </slider>
+        </div>
+
+        <div class="tab">
+          <div class="tablist">
+            <tab
+              class="coupon-list-head"
+              :line-width="2"
+              active-color="#333333"
+              bar-active-color="#FFB718"
+              v-model="index">
+              <tab-item
+                v-for="item in tabList"
+                :key="item.index"
+                @click.native="tabHandler(item)"
+                :selected="item.index === 0">
+                {{item.className}}
+              </tab-item>
+            </tab>
           </div>
-        </slider>
+        </div>
+
+        <div class="recommend-list">
+          <ul>
+            <li class="article-list-card" v-for="item in MainList" :key="item.index">
+            <!--params: {id: item.id}-->
+              <router-link :to="{name: 'details', params: {id: item.id}}">
+                <img :src="item.pageImg" alt="">
+                <div class="footer">
+                  <div class="title z-ellipsisi">
+                    {{item.title}}
+                  </div>
+                  <div class="subtitle z-ellipsisi" v-html="item.content">
+                  </div>
+                </div>
+              </router-link>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="recommend-list">
-        <h1 class="list-title">热门歌单推荐</h1>
-        <ul></ul>
+      <div class="loading-container" v-show="!MainList.length">
+        <loading></loading>
       </div>
+    </scroll>
     </div>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import Slider from 'base/slider/slider'
-  import {getRecommend} from 'api/recommend'
-  import {ERR_OK} from 'api/config'
-
+  import { Tab, TabItem } from 'vux'
+  import { getMainPush, getImgText, getClassify } from 'api/index/recommend'
+  import tabList from 'components/tabList/tabList'
+  import Scroll from 'base/scroll/scroll'
+  import Loading from 'base/loading/loading'
   export default {
     data() {
       return {
-        recommends: []
+        recommends: [],
+        MainList: [],
+        pageSize: 10,
+        pageNum: 1,
+        classify: 10,
+        tabList: [],
+        index: 0
       }
     },
     created() {
-      this._getRecommend()
+      this._doGetMainPush()
+      this._doGetClassify()
+      setTimeout(() => {
+        this._getMainPushList()
+      }, 1000)
     },
     methods: {
-      _getRecommend() { // 轮播图方法
-        getRecommend().then((res) => {
-          if (res.code === ERR_OK) {
-            this.recommends = res.data.slider
-            console.log(this.recommends)
+      _doGetMainPush() { // 轮播图
+        getMainPush().then((res) => {
+          if (res.status === 200) {
+            var List = res.data
+            List.forEach(item => {
+              this.$set(item, 'url', '/index/details/' + item.material)
+            })
+            this.recommends = List
+            console.log(this.recommends, '22111')
           }
         })
+      },
+      _doGetClassify() {
+        getClassify('').then((res) => {
+          if (res.status === 200) {
+            this.tabList = res.data
+            console.log(res)
+          }
+        })
+      },
+      _getMainPushList() {
+        var params = {
+          pageSize: this.pageSize,
+          nowPage: this.pageNum,
+          classify: this.classify
+        }
+        getImgText(params).then((res) => {
+          if (res.status === 200) {
+            this.MainList = res.data.list
+          }
+        }).catch((e) => {
+
+        })
+      },
+      tabHandler(item) {
+        console.log(item)
+        this.MainList = []
+        this.classify = item.id
+        setTimeout(() => {
+          this._getMainPushList()
+        }, 1000)
       }
     },
     components: {
-      Slider
+      Slider,
+      tabList,
+      Scroll,
+      Loading,
+      Tab,
+      TabItem
     }
   }
 </script>
@@ -54,7 +144,7 @@
   .recommend
     position: fixed
     width: 100%
-    top: 88px
+    top: 44px
     bottom: 0
     .recommend-content
       height: 100%
@@ -64,34 +154,32 @@
         width: 100%
         overflow: hidden
       .recommend-list
-        .list-title
-          height: 65px
-          line-height: 65px
-          text-align: center
-          font-size: $font-size-medium
-          color: $color-theme
-        .item
-          display: flex
-          box-sizing: border-box
-          align-items: center
-          padding: 0 20px 20px 20px
-          .icon
-            flex: 0 0 60px
-            width: 60px
-            padding-right: 20px
-          .text
-            display: flex
-            flex-direction: column
-            justify-content: center
-            flex: 1
-            line-height: 20px
-            overflow: hidden
-            font-size: $font-size-medium
-            .name
-              margin-bottom: 10px
-              color: $color-text
-            .desc
-              color: $color-text-d
+        .article-list-card
+          margin-left: 8px
+          margin-right: 8px
+          margin-bottom: 8px
+          border-radius: 8px
+          background-color: #fff
+          box-shadow: 0 0 4px 0 rgba(166,142,92,0.20)
+          img
+            border-radius: 8px;
+            width:100%
+            height:240px
+        .article-list-card .footer
+          padding: 15px 0 10px
+          overflow: hidden
+        .article-list-card .footer .title
+          margin: 0 20px
+          font-size: 14px
+          font-weight: 500
+          color: #404040
+        .article-list-card .footer .subtitle
+          margin: 0 20px
+          padding-top: 8px
+          font-size: 12px
+          color: #868686
+        .article-list-body
+          margin-top: 8px
       .loading-container
         position: absolute
         width: 100%
