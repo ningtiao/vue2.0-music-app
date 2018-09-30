@@ -5,6 +5,7 @@ import Singer from 'components/singer/singer'
 import User from 'views/userInfo/User'
 import Rank from 'components/rank/rank'
 import Search from 'components/search/search'
+import details from 'components/detail/details'
 Vue.use(Router)
 
 // 配置路由
@@ -17,6 +18,14 @@ export default new Router({
     {
       path: '/recommend',
       component: Recommend
+    },
+    {
+      path: '/recommend/detail/:id',
+      name: 'details',
+      components: {
+        'default': Recommend,
+        'subPage': details
+      }
     },
     {
       path: '/User',

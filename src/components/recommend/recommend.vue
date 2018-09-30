@@ -1,4 +1,13 @@
 <template>
+  <div class="recom">
+    <div class="search">
+    <search
+          v-model="value"
+          position="absolute"
+          auto-scroll-to-top
+          top="0"
+          ref="search"></search>
+    </div>
   <div class="recommend" ref="recommend">
     <scroll ref="scroll" class="recommend-content" :data="MainList">
       <div>
@@ -11,7 +20,7 @@
             </div>
           </slider>
         </div>
-
+        
         <div class="tab">
           <div class="tablist">
             <tab
@@ -33,18 +42,16 @@
 
         <div class="recommend-list">
           <ul>
-            <li class="article-list-card" v-for="item in MainList" :key="item.index">
+            <li class="article-list-card" @click="selectItem(item)" v-for="item in MainList" :key="item.index">
             <!--params: {id: item.id}-->
-              <router-link :to="{name: 'details', params: {id: item.id}}">
-                <img :src="item.pageImg" alt="">
-                <div class="footer">
-                  <div class="title z-ellipsisi">
-                    {{item.title}}
-                  </div>
-                  <div class="subtitle z-ellipsisi" v-html="item.content">
-                  </div>
+              <img :src="item.pageImg" alt="">
+              <div class="footer">
+                <div class="title z-ellipsisi">
+                  {{item.title}}
                 </div>
-              </router-link>
+                <div class="subtitle z-ellipsisi" v-html="item.content">
+                </div>
+              </div>
             </li>
           </ul>
         </div>
@@ -55,11 +62,12 @@
     </scroll>
     </div>
   </div>
+ </div>
 </template>
 
 <script>
   import Slider from 'base/slider/slider'
-  import { Tab, TabItem } from 'vux'
+  import { Tab, TabItem, Search } from 'vux'
   import { getMainPush, getImgText, getClassify } from 'api/index/recommend'
   import tabList from 'components/tabList/tabList'
   import Scroll from 'base/scroll/scroll'
@@ -73,7 +81,8 @@
         pageNum: 1,
         classify: 10,
         tabList: [],
-        index: 0
+        index: 0,
+        value: ''
       }
     },
     created() {
@@ -125,6 +134,14 @@
         setTimeout(() => {
           this._getMainPushList()
         }, 1000)
+      },
+      selectItem(item) {
+        this.$router.push({
+          path: '/recommend/detail',
+          params: {
+            id: item.id
+          }
+        })
       }
     },
     components: {
@@ -133,7 +150,8 @@
       Scroll,
       Loading,
       Tab,
-      TabItem
+      TabItem,
+      Search
     }
   }
 </script>
@@ -146,6 +164,9 @@
     width: 100%
     top: 44px
     bottom: 0
+    .search{
+      line-height:30px;
+    }
     .recommend-content
       height: 100%
       overflow: hidden
@@ -154,6 +175,7 @@
         width: 100%
         overflow: hidden
       .recommend-list
+        margin-top:10px;
         .article-list-card
           margin-left: 8px
           margin-right: 8px
