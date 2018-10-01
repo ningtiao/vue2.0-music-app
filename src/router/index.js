@@ -17,15 +17,13 @@ export default new Router({
     },
     {
       path: '/recommend',
-      component: Recommend
-    },
-    {
-      path: '/recommend/detail/:id',
-      name: 'details',
-      components: {
-        'default': Recommend,
-        'subPage': details
-      }
+      component: Recommend,
+      children: [
+        {
+          path: ':id',
+          component: details
+        }
+      ]
     },
     {
       path: '/User',

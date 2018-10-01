@@ -1,14 +1,6 @@
 <template>
-  <div class="recom">
-    <div class="search">
-    <search
-          v-model="value"
-          position="absolute"
-          auto-scroll-to-top
-          top="0"
-          ref="search"></search>
-    </div>
-  <div class="recommend" ref="recommend">
+  <div>
+  <div class="recommend">
     <scroll ref="scroll" class="recommend-content" :data="MainList">
       <div>
         <div v-if="recommends.length" class="slider-wrapper">
@@ -20,7 +12,6 @@
             </div>
           </slider>
         </div>
-        
         <div class="tab">
           <div class="tablist">
             <tab
@@ -40,29 +31,29 @@
           </div>
         </div>
 
-        <div class="recommend-list">
-          <ul>
-            <li class="article-list-card" @click="selectItem(item)" v-for="item in MainList" :key="item.index">
-            <!--params: {id: item.id}-->
-              <img :src="item.pageImg" alt="">
-              <div class="footer">
-                <div class="title z-ellipsisi">
-                  {{item.title}}
-                </div>
-                <div class="subtitle z-ellipsisi" v-html="item.content">
-                </div>
+  
+        <ul class="recommend-list">
+          <li class="article-list-card" @click="selectItem(item)" v-for="item in MainList" :key="item.index">
+          <!--params: {id: item.id}-->
+            <img :src="item.pageImg" alt="">
+            <div class="footer">
+              <div class="title z-ellipsisi">
+                {{item.title}}
               </div>
-            </li>
-          </ul>
-        </div>
+              <div class="subtitle z-ellipsisi" v-html="item.content">
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
       <div class="loading-container" v-show="!MainList.length">
         <loading></loading>
       </div>
     </scroll>
+    <router-view></router-view>
     </div>
   </div>
- </div>
+  </div>
 </template>
 
 <script>
@@ -98,7 +89,7 @@
           if (res.status === 200) {
             var List = res.data
             List.forEach(item => {
-              this.$set(item, 'url', '/index/details/' + item.material)
+              this.$set(item, 'url', '/' + item.material)
             })
             this.recommends = List
             console.log(this.recommends, '22111')
@@ -137,10 +128,7 @@
       },
       selectItem(item) {
         this.$router.push({
-          path: '/recommend/detail',
-          params: {
-            id: item.id
-          }
+          path: `/recommend/${item.id}`
         })
       }
     },
@@ -158,12 +146,11 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import "~common/stylus/variable"
-
   .recommend
     position: fixed
     width: 100%
     top: 44px
-    bottom: 0
+    bottom: 50px
     .search{
       line-height:30px;
     }
@@ -175,18 +162,18 @@
         width: 100%
         overflow: hidden
       .recommend-list
-        margin-top:10px;
+        margin: 10px 0 0 0
+        padding-bottom:10px
         .article-list-card
-          margin-left: 8px
-          margin-right: 8px
-          margin-bottom: 8px
+          margin:0 8px 8px
+          bottom:10px
           border-radius: 8px
           background-color: #fff
           box-shadow: 0 0 4px 0 rgba(166,142,92,0.20)
           img
             border-radius: 8px;
             width:100%
-            height:240px
+            height:200px
         .article-list-card .footer
           padding: 15px 0 10px
           overflow: hidden
@@ -205,6 +192,6 @@
       .loading-container
         position: absolute
         width: 100%
-        top: 50%
+        top: 55%
         transform: translateY(-50%)
 </style>

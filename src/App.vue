@@ -1,32 +1,20 @@
 <template>
   <div id="app">
     <!-- index article cart mine -->
-    <div class="z-app" :class="{'hideLeft':$route.path.split('/').length>2}">
-        <router-view name="default">
-        </router-view>
-      <div class="z-foot">
-        <tab-bar></tab-bar>
-      </div>
-    </div>
-    <transition
-      name="custom-classes-transition"
-      :enter-active-class="enterAnimate"
-      :leave-active-class="leaveAnimate">
-      <router-view
-        name="subPage"
-        class="router-view">
-      </router-view>
-    </transition>
-
+    <m-header></m-header>
+    <router-view></router-view>
+     <tab-bar></tab-bar>
   </div>
 </template>
 
 <script type="text-ecmascript-6">
 import 'common/css/common.scss'
 import tabBar from 'components/tabBar/tabBar'
- export default {
+import MHeader from 'components/m-header/m-header'
+export default {
   components: {
-  tabBar
+    tabBar,
+    MHeader
   },
   data() {
     return {
