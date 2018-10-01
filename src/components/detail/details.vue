@@ -1,41 +1,40 @@
 <template>
   <transition name="slide">
-    <div class="recommend-detail">
-      <!--滑动区域-->
-      <scroll ref="scrollList" class="recommend-content" :data="commentList">
-        <div>
+      <div class="recommend-detail">
+        <x-header style="background-color:#ffffff;" :left-options="{backText: ''}">{{detail.title}}</x-header>
+        <!--滑动区域-->
+        <scroll ref="scrollList" class="recommend-content" :data="commentList">
           <div>
-            <div class="banner">
-              <img :src="detail.pageImg" alt="">
-              <div class="detail-title">
-                <p>{{detail.title}}</p>
-                <span>已阅人数: {{read}}</span>
-              </div>
-            </div>
-
-            <div class="detail-content">
-              <div class="product" v-html="detail.content">
-              </div>
-              <span>发布于  {{detail.created}}</span>
-            </div>
-
-            <div class="comment" id="commentList">
-              <p>全部 {{commentNumber}} 条回复</p>
-              <div v-for="item in commentList" class="comment-list" :key="item.index">
-                <div class="left">
-                  <img src="../../assets/images/weizhuanfa.png">
-                </div>
-                <div class="right">
-                  <span>{{item.name}}</span>
-                  <p>{{item.comment}}</p>
+              <div class="banner">
+                <img :src="detail.pageImg" alt="">
+                <div class="detail-title">
+                  <p>{{detail.title}}</p>
+                  <span>已阅人数: {{read}}</span>
                 </div>
               </div>
+
+              <div class="detail-content">
+                <div class="product" v-html="detail.content">
+                </div>
+                <span>发布于  {{detail.created}}</span>
+              </div>
+
+              <div class="comment" id="commentList">
+                <p>全部 {{commentNumber}} 条回复</p>
+                <div v-for="item in commentList" class="comment-list" :key="item.index">
+                  <div class="left">
+                    <img src="../../assets/images/weizhuanfa.png">
+                  </div>
+                  <div class="right">
+                    <span>{{item.name}}</span>
+                    <p>{{item.comment}}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </scroll>
-    </div>
-    </transition>
+        </scroll>
+      </div>
+  </transition>
 </template>
 
 <script>
@@ -151,17 +150,39 @@
   @import "~common/stylus/variable"
   .slide-enter-active, .slide-leave-active
     transition: all 0.3s
-
+  .container .search
+    display:none
   .slide-enter, .slide-leave-to
     transform: translate3d(100%, 0, 0)
   .recommend-detail
     position: fixed
     z-index: 100
-    top: 0
+    top:44px
     left: 0
     bottom: 50px
     right: 0
     background: $color-background
+    .top
+      position absolute
+      top: 0
+      width:100%;
+      z-index: 50
+      .icon-back
+        display: block
+        padding: 10px
+        font-size: $font-size-large-x
+        color: $color-theme
+    .title
+      position: absolute
+      top: 0
+      left: 10%
+      z-index: 40
+      width: 80%
+      no-wrap()
+      text-align: center
+      line-height: 40px
+      font-size: $font-size-large
+      color: $color-text
   .recommend-content{
     height:100%
     overflow: hidden;

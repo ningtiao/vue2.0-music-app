@@ -1,17 +1,21 @@
 <template>
-  <div>
-  <div class="recommend">
+<div class="container">
+  <div class="search" v-show="$route.meta.showFooter">
+    <Search></Search>
+  </div>
+ <div class="recommend" ref="recommend">
     <scroll ref="scroll" class="recommend-content" :data="MainList">
       <div>
         <div v-if="recommends.length" class="slider-wrapper">
           <slider>
             <div v-for="item in recommends" :key="item.index">
-              <a :href="item.url">
+              <a  @click="selectItem(item)">
                 <img :src="item.img">
               </a>
             </div>
           </slider>
         </div>
+
         <div class="tab">
           <div class="tablist">
             <tab
@@ -31,29 +35,31 @@
           </div>
         </div>
 
-  
-        <ul class="recommend-list">
-          <li class="article-list-card" @click="selectItem(item)" v-for="item in MainList" :key="item.index">
-          <!--params: {id: item.id}-->
-            <img :src="item.pageImg" alt="">
-            <div class="footer">
-              <div class="title z-ellipsisi">
-                {{item.title}}
+        <div class="recommend-list">
+          <ul>
+            <li class="article-list-card" @click="selectItem(item)" v-for="item in MainList" :key="item.index">
+            <!--params: {id: item.id}-->
+              <img :src="item.pageImg" alt="">
+              <div class="footer">
+                <div class="title z-ellipsisi">
+                  {{item.title}}
+                </div>
+                <div class="subtitle z-ellipsisi" v-html="item.content">
+                </div>
               </div>
-              <div class="subtitle z-ellipsisi" v-html="item.content">
-              </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
+
       <div class="loading-container" v-show="!MainList.length">
         <loading></loading>
       </div>
+
     </scroll>
-    <router-view></router-view>
-    </div>
   </div>
-  </div>
+  <router-view></router-view>
+</div>
 </template>
 
 <script>
@@ -163,7 +169,7 @@
         overflow: hidden
       .recommend-list
         margin: 10px 0 0 0
-        padding-bottom:10px
+        padding-bottom:1px
         .article-list-card
           margin:0 8px 8px
           bottom:10px
