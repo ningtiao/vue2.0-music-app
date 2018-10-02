@@ -4,7 +4,7 @@
     <router-view></router-view>
     <tab-bar v-show="$route.meta.showFooter"></tab-bar>-->
     <!-- index article cart mine -->
-    <div class="z-app" :class="{'hideLeft':$route.path.split('/').length>2}">
+    <div class="app" :class="{'hideLeft':$route.path.split('/').length>2}">
         <router-view name="default">
         </router-view>
       <div class="z-foot">
@@ -68,13 +68,4 @@ export default {
 @import "~common/stylus/mixin"
 .search
   line-height:30px
-#app
-  transition: 0.3s
-  position: relative
-  top: 0
-  left: 0;
-  bottom: 0
-  right: 0
-  height: 100%
-  width: 100%
 </style>
