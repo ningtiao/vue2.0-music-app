@@ -1,10 +1,10 @@
 <template>
 <div class="container">
-  <div class="search" v-show="$route.meta.showFooter">
+  <div class="search">
     <Search></Search>
   </div>
  <div class="recommend" ref="recommend">
-    <scroll ref="scroll" class="recommend-content" :data="MainList">
+    <scroll ref="scroll" :pullup="pullup" @scrollToEnd="getMainPushMore" :pullDownRefresh="pullDownRefresh" @pullDownRefresh="pullDownInit" class="recommend-content" :data="MainList">
       <div>
         <div v-if="recommends.length" class="slider-wrapper">
           <slider>
@@ -49,13 +49,13 @@
               </div>
             </li>
           </ul>
+          <loading v-show="hasMore || !MainList.length " title="拼命加载中"></loading>
         </div>
       </div>
 
-      <div class="loading-container" v-show="!MainList.length">
+      <!--<div class="loading-container" v-show="!MainList.length">
         <loading></loading>
-      </div>
-
+      </div>-->
     </scroll>
   </div>
   <router-view></router-view>
@@ -74,12 +74,15 @@
       return {
         recommends: [],
         MainList: [],
-        pageSize: 10,
+        pageSize: 1,
         pageNum: 1,
         classify: 10,
         tabList: [],
         index: 0,
-        value: ''
+        value: '',
+        pullup: true,
+        hasMore: true,
+        pullDownRefresh: true
       }
     },
     created() {
@@ -116,9 +119,39 @@
           nowPage: this.pageNum,
           classify: this.classify
         }
+        this.hasMore = true
         getImgText(params).then((res) => {
           if (res.status === 200) {
             this.MainList = res.data.list
+            this._checkMore(res.data)
+          }
+        }).catch((e) => {
+
+        })
+      },
+      _checkMore(data) {
+        const song = data
+        if (!song.list.length || (song.nowPage + song.pageSize * this.pageSize) > song.totalCount) {
+          this.hasMore = false
+        }
+      },
+      pullDownInit() {
+        console.log('下拉刷新')
+      },
+      getMainPushMore() {
+        if (!this.hasMore) {
+          return
+        }
+        this.pageNum++
+        var params = {
+          pageSize: this.pageSize,
+          nowPage: this.pageNum,
+          classify: this.classify
+        }
+        getImgText(params).then((res) => {
+          if (res.status === 200) {
+            this.MainList = this.MainList.concat(res.data.list)
+            this._checkMore(res.data)
           }
         }).catch((e) => {
 
@@ -134,8 +167,17 @@
       },
       selectItem(item) {
         this.$router.push({
-          path: `/recommend/${item.id}`
+          path: `/recommend/detail/${item.id}`
         })
+      }
+    },
+    computed: {
+      pullDownRefreshObj: function () {
+        alert(1)
+        return this.pullDownRefresh ? {
+          threshold: parseInt(this.pullDownRefreshThreshold),
+          stop: parseInt(this.pullDownRefreshStop)
+        } : false
       }
     },
     components: {

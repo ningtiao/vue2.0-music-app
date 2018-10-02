@@ -1,8 +1,25 @@
 <template>
   <div id="app">
-    <!-- index article cart mine -->
+    <!-- index article cart mine 
     <router-view></router-view>
-    <tab-bar v-show="$route.meta.showFooter"></tab-bar>
+    <tab-bar v-show="$route.meta.showFooter"></tab-bar>-->
+    <!-- index article cart mine -->
+    <div class="z-app" :class="{'hideLeft':$route.path.split('/').length>2}">
+        <router-view name="default">
+        </router-view>
+      <div class="z-foot">
+        <tab-bar></tab-bar>
+      </div>
+    </div>
+    <transition
+      name="custom-classes-transition"
+      :enter-active-class="enterAnimate"
+      :leave-active-class="leaveAnimate">
+      <router-view
+        name="subPage"
+        class="router-view" v-if="!$route.meta.keepAlive">
+      </router-view>
+    </transition>
   </div>
 </template>
 

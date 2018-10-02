@@ -1,39 +1,41 @@
 <template>
   <transition name="slide">
-      <div class="recommend-detail">
-        <x-header style="background-color:#ffffff;" :left-options="{backText: ''}">{{detail.title}}</x-header>
-        <!--滑动区域-->
-        <scroll ref="scrollList" class="recommend-content" :data="commentList">
-          <div>
-              <div class="banner">
-                <img :src="detail.pageImg" alt="">
-                <div class="detail-title">
-                  <p>{{detail.title}}</p>
-                  <span>已阅人数: {{read}}</span>
-                </div>
+    <div class="container">
+    <x-header style="background-color:#ffffff;" :left-options="{backText: ''}">{{detail.title}}</x-header>
+    <div class="recommend-detail">
+      <!--滑动区域-->
+      <scroll ref="scrollList" class="recommend-content" :data="commentList">
+        <div>
+            <div class="banner">
+              <img :src="detail.pageImg" alt="">
+              <div class="detail-title">
+                <p>{{detail.title}}</p>
+                <span>已阅人数: {{read}}</span>
               </div>
+            </div>
 
-              <div class="detail-content">
-                <div class="product" v-html="detail.content">
-                </div>
-                <span>发布于  {{detail.created}}</span>
+            <div class="detail-content">
+              <div class="product" v-html="detail.content">
               </div>
+              <span>发布于  {{detail.created}}</span>
+            </div>
 
-              <div class="comment" id="commentList">
-                <p>全部 {{commentNumber}} 条回复</p>
-                <div v-for="item in commentList" class="comment-list" :key="item.index">
-                  <div class="left">
-                    <img src="../../assets/images/weizhuanfa.png">
-                  </div>
-                  <div class="right">
-                    <span>{{item.name}}</span>
-                    <p>{{item.comment}}</p>
-                  </div>
+            <div class="comment" id="commentList">
+              <p>全部 {{commentNumber}} 条回复</p>
+              <div v-for="item in commentList" class="comment-list" :key="item.index">
+                <div class="left">
+                  <img src="../../assets/images/weizhuanfa.png">
+                </div>
+                <div class="right">
+                  <span>{{item.name}}</span>
+                  <p>{{item.comment}}</p>
                 </div>
               </div>
             </div>
-        </scroll>
-      </div>
+          </div>
+      </scroll>
+    </div>
+  </div>
   </transition>
 </template>
 
