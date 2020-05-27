@@ -11,12 +11,12 @@
 
 ## 首页
 
-<!--![image](https://github.com/yjx-passion/vue2.0-music-app/blob/master/src/components/img/music1.png)
+<!--![image](https://github.com/endless-z/vue2.0-music-app/blob/master/src/components/img/music1.png)
 
-![image](https://github.com/yjx-passion/vue2.0-music-app/blob/master/src/components/img/music.png)-->
+![image](https://github.com/endless-z/vue2.0-music-app/blob/master/src/components/img/music.png)-->
 
-<img width="375" height="667" src="https://github.com/yjx-passion/vue2.0-music-app/blob/master/src/components/img/music1.png"/>
-<img width="375" height="667" src="https://github.com/yjx-passion/vue2.0-music-app/blob/master/src/components/img/music.png"/>
+<img width="375" height="667" src="https://github.com/endless-z/vue2.0-music-app/blob/master/src/components/img/music1.png"/>
+<img width="375" height="667" src="https://github.com/endless-z/vue2.0-music-app/blob/master/src/components/img/music.png"/>
 
 ## 项目运行
 
